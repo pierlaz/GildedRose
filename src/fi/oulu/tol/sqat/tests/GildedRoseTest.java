@@ -17,6 +17,7 @@ public class GildedRoseTest {
 	Item sulfuras;
 	Item backstage;
 	Item cake;
+	Item conjured;
 	public List<Item> items = null;
 
 	@Before
@@ -26,8 +27,29 @@ public class GildedRoseTest {
 		agedBrie = new Item("Aged Brie", 7, 1);
 		elisir = new Item("Elisir of the Dragon", -1, 2);
 		sulfuras = new Item("Sulfuras, Hand of Ragnaros", 0, 80);
-		cake = new Item("Conjured Mana Cake", 0, 6);
+		cake = new Item("Mana Cake", 0, 6);
+		conjured = new Item("Conjured Mana Cake", 2, 6);
 
+		
+
+	}
+	
+	@Test
+	public void shopWithOneConjuredItem(){
+		items.add(conjured);
+		GildedRose.updateQuality();
+		assertEquals(items.get(counter).getSellIn(), 1);
+		assertEquals(items.get(counter).getQuality(), 4);
+		items.remove(conjured);
+	}
+	
+	@Test
+	public void shopWithOneConjuredItemWithSellInUnder0(){
+		items.add(new Item("Conjured Mana Cake", -2, 6));
+		GildedRose.updateQuality();
+		assertEquals(items.get(counter).getSellIn(), -3);
+		assertEquals(items.get(counter).getQuality(), 2);
+		items.remove(conjured);
 	}
 
 	@Test
